@@ -1,0 +1,5 @@
+{
+  "name": "AI Text Summarizer",
+  "description": "An advanced text summarization tool that uses AI to create abstractive summaries. Users can input text directly, upload PDF files, and download the generated summary as a PDF.",
+  "requestFramePermissions": []
+}
