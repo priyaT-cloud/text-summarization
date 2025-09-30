@@ -1,4 +1,3 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 
 const API_KEY = process.env.API_KEY;
@@ -14,11 +13,11 @@ const responseSchema = {
   properties: {
     summary: {
       type: Type.STRING,
-      description: "A concise, abstractive summary of the text."
+      description: "A concise, abstractive summary of the text, formatted as a bulleted list (using '*' or '-' for each point)."
     },
     diagram: {
       type: Type.STRING,
-      description: "A Mermaid.js flowchart diagram representing the key points of the summary. Example: flowchart TD\\nA[Start] --> B[Point 1];\\nB --> C[Point 2];"
+      description: "A simple, high-level Mermaid.js flowchart diagram representing the main stages or concepts. Use broad headings and ensure valid syntax. Every connection between nodes must use an arrow like '-->'. Each statement should be on a new line. Example: flowchart TD\\nA[Start] --> B{Decision};\\nB -->|Yes| C[Process 1];\\nB -->|No| D[Process 2];\\nC --> E[End];\\nD --> E[End];"
     }
   },
   required: ["summary", "diagram"]
@@ -31,8 +30,8 @@ export async function generateSummary(text: string): Promise<{ summary: string; 
 
   const prompt = `
     You are an expert in text summarization and data visualization. Your task is to perform two actions based on the provided text:
-    1.  Provide a high-quality abstractive summary. The summary should be concise, coherent, and capture the main ideas in your own words.
-    2.  Based on the summary, create a simple Mermaid.js flowchart diagram that illustrates the main points and their relationships.
+    1.  Provide a high-quality abstractive summary in the form of a bulleted list. Each key point should be a separate bullet point starting with '*' or '-'.
+    2.  Based on the summary, create a simple, high-level Mermaid.js flowchart diagram that illustrates the main stages and concepts. The diagram should use broad headings for clarity and adhere strictly to valid Mermaid.js syntax.
 
     The final output must be a JSON object matching the required schema.
 
